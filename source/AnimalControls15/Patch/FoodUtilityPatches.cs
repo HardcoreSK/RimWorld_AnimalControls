@@ -91,6 +91,7 @@ namespace AnimalControls.Patch
 
             if (eater.needs != null && eater.needs.mood != null)
                 return;
+
             //
             if (Settings.allow_feeding_with_plants)
             {

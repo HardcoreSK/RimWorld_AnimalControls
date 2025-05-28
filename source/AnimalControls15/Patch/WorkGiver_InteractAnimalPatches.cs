@@ -9,6 +9,7 @@ namespace AnimalControls.Patch
 {
     //normally handlers take only the food that's below meal in quality
     //changing "not a meal" restriction to "<=0.1f nutition"
+    /*
     [HarmonyPatch(typeof(WorkGiver_InteractAnimal), "HasFoodToInteractAnimal")]
     static class WorkGiver_InteractAnimal_HasFoodToInteractAnimal_AnimalControlsPatch
     {
@@ -39,6 +40,7 @@ namespace AnimalControls.Patch
             if (!b0) Log.Warning("[Animal Controls] HasFoodToInteractAnimal patch 0 didn't work");
         }
     }
+    */
 
     //change filter requirement for training and taming food from "rawtasty" to "nutrition <= 0.1" when looking for it
     //we've made a new filter for it, based off of bestFoodSourceOnMap_minNutrition_NewTemp
