@@ -23,7 +23,7 @@ namespace AnimalControls
     [StaticConstructorOnStartup]
     public class AnimalControls : Mod
     {
-        public static float TrainAnimalNutritionLimit = 0.1f;
+        public static float TrainAnimalNutritionLimit = 0.5f;
         public static float BestFoodSourceOnMap_maxNutrition = float.MaxValue;
         public static bool saveStorageSettingsModActive = ModsConfig.ActiveModsInLoadOrder.FirstOrDefault(x => x.PackageIdNonUnique == "savestoragesettings.kv.rw") != null;
 
