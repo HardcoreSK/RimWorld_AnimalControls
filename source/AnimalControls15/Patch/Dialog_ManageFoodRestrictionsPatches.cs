@@ -50,10 +50,6 @@ namespace AnimalControls.Patch
             if (Widgets.ButtonText(new Rect(310f, 0f, 150f, 35f), comp.DefaultRestriction.asText(), true, true, true))
             {
                 List<FloatMenuOption> list = new List<FloatMenuOption>();
-                list.Add(new FloatMenuOption("AnimalControlsDefault".Translate(), delegate ()
-                {
-                    comp.DefaultRestriction = null;
-                }, MenuOptionPriority.Default, null, null, 0f, null, null));
                 foreach (FoodPolicy fr in Current.Game.foodRestrictionDatabase.AllFoodRestrictions)
                 {
                     list.Add(new FloatMenuOption(fr.label, delegate ()
@@ -69,10 +65,6 @@ namespace AnimalControls.Patch
             if (Widgets.ButtonText(new Rect(310f, 40f, 150f, 35f), comp.HandlerRestriction.asText(), true, true, true))
             {
                 List<FloatMenuOption> list = new List<FloatMenuOption>();
-                list.Add(new FloatMenuOption("AnimalControlsDefault".Translate(), delegate ()
-                {
-                    comp.HandlerRestriction = null;
-                }, MenuOptionPriority.Default, null, null, 0f, null, null));
                 foreach (FoodPolicy fr in Current.Game.foodRestrictionDatabase.AllFoodRestrictions)
                 {
                     list.Add(new FloatMenuOption(fr.label, delegate ()

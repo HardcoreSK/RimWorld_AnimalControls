@@ -16,6 +16,8 @@ namespace AnimalControls
 
         public AnimalControlsRestrictions(Game game)
         {
+            DefaultRestriction = game?.foodRestrictionDatabase.AllFoodRestrictions.Where(fr => fr.label == (string)"FoodRestrictionAnimal".Translate()).FirstOrDefault();
+            HandlerRestriction = game?.foodRestrictionDatabase.AllFoodRestrictions.Where(fr => fr.label == (string)"FoodRestrictionAnimal".Translate()).FirstOrDefault();
         }
 
         public override void ExposeData()

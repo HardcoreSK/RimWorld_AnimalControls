@@ -57,6 +57,7 @@
     <Compile Include="Patch\Hediff_PregnantPatches.cs" />
     <Compile Include="Patch\JobDriver_InteractAnimalPatches.cs" />
     <Compile Include="JobDriver_PayAttention.cs" />
+    <Compile Include="Patch\FoodRestrictionDatabasePatches.cs" />
     <Compile Include="Patch\PawnComponentsUtilityPatches.cs" />
     <Compile Include="Patch\Pawn_FoodRestrictionTrackerPatches.cs" />
     <Compile Include="Patch\ThingListGroupHelperPatches.cs" />
