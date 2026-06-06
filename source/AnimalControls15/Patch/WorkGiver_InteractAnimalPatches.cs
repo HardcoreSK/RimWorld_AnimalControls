@@ -69,7 +69,7 @@ namespace AnimalControls.Patch
                     {
                         yield return i;
 
-                        yield return new CodeInstruction(OpCodes.Ldc_R4, 2.5f);
+                        yield return new CodeInstruction(OpCodes.Ldc_R4, float.MaxValue);
                         oldi = new CodeInstruction(OpCodes.Call, LsetMaxNutrition);
                         b1 = true;
                         continue;
