@@ -9,6 +9,7 @@ namespace AnimalControls.Patch
 {
     //normally handlers take only the food that's below meal in quality
     //changing "not a meal" restriction to "<=0.1f nutition"
+    /*
     [HarmonyPatch(typeof(WorkGiver_InteractAnimal), "HasFoodToInteractAnimal")]
     static class WorkGiver_InteractAnimal_HasFoodToInteractAnimal_AnimalControlsPatch
     {
@@ -37,6 +38,50 @@ namespace AnimalControls.Patch
             }
             yield return oldi;
             if (!b0) Log.Warning("[Animal Controls] HasFoodToInteractAnimal patch 0 didn't work");
+        }
+    }*/
+
+    [HarmonyPatch(typeof(WorkGiver_InteractAnimal), "HasFoodToInteractAnimal")]
+    static class WorkGiver_InteractAnimal_HasFoodToInteractAnimal_AnimalControlsPatch
+    {
+        [HarmonyPrefix]
+        static bool Prefix(Pawn pawn, Pawn tamee, ref bool __result)
+        {
+            ThingOwner<Thing> innerContainer = pawn.inventory.innerContainer;
+
+            int feedingsAvailable = 0;
+            float nutritionPerFeed = JobDriver_InteractAnimal.RequiredNutritionPerFeed(tamee);
+            float accumulatedNutrition = 0f;
+
+            for (int i = 0; i < innerContainer.Count; i++)
+            {
+                Thing thing = innerContainer[i];
+
+                if (tamee.WillEat(thing, pawn)
+                    && !thing.def.IsDrug
+                    && thing.GetStatValue(StatDefOf.Nutrition) <= AnimalControls.TrainAnimalNutritionLimit)
+                {
+                    for (int j = 0; j < thing.stackCount; j++)
+                    {
+                        accumulatedNutrition += thing.GetStatValue(StatDefOf.Nutrition);
+
+                        if (accumulatedNutrition >= nutritionPerFeed)
+                        {
+                            feedingsAvailable++;
+                            accumulatedNutrition = 0f;
+                        }
+
+                        if (feedingsAvailable >= 2)
+                        {
+                            __result = true;
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            __result = false;
+            return false;
         }
     }
 
