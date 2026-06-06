@@ -58,14 +58,18 @@ namespace AnimalControls.Patch
             bool b2 = false;
             yield return new CodeInstruction(OpCodes.Ldsfld, LTrainAnimalNutritionLimit);
             oldi = new CodeInstruction(OpCodes.Call, LsetMaxNutrition);
+
+            int nutritionMultiplierReplacements = 0;
+
             foreach (var i in instrs)
             {
                 if (oldi != null)
                 {
                     yield return oldi;
-                    if (i.opcode == OpCodes.Stloc_1 
-                    && oldi.opcode == OpCodes.Call 
-                    && (oldi.operand == (object)LbestFoodSourceOnMap))
+
+                    if (i.opcode == OpCodes.Stloc_1 &&
+                        oldi.opcode == OpCodes.Call &&
+                        oldi.operand == (object)LbestFoodSourceOnMap)
                     {
                         yield return i;
 
@@ -75,20 +79,35 @@ namespace AnimalControls.Patch
                         continue;
                     }
                 }
-                //
+                // Stop the rest of the method from trying to gather 8 times the number of feeds. Just 2. 2 * 4f -> 2 * 1f
                 if (i.opcode == OpCodes.Ldc_I4_5)
                 {
                     i.opcode = OpCodes.Ldc_I4_S;
                     i.operand = (int)FoodPreferability.MealLavish;
                     b2 = true;
                 }
-                //
+
+                if (i.opcode == OpCodes.Ldc_R4 &&
+                    i.operand is float value &&
+                    value == 4f)
+                {
+                    i.operand = 1f;
+                    nutritionMultiplierReplacements++;
+                }
+
                 oldi = i;
             }
-            //
+
             yield return oldi;
             if (!b1) Log.Warning("[Animal Controls] WorkGiver_InteractAnimal_TakeFoodForAnimalInteractJob patch 1 didn't work");
             if (!b2) Log.Warning("[Animal Controls] WorkGiver_InteractAnimal_TakeFoodForAnimalInteractJob patch 2 didn't work");
+
+
+            if (nutritionMultiplierReplacements != 2)
+            {
+                Log.Warning(
+                    $"[Animal Controls] Expected to replace 2 occurrences of 4f in TakeFoodForAnimalInteractJob, replaced {nutritionMultiplierReplacements}");
+            }
         }
     }
 }
